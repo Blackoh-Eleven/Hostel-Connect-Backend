@@ -104,16 +104,39 @@ app.post('/signin', async(req,res)=>{
   
 })
 
-  app.get('/home', verifyToken, async (req, res) => {
+
+app.get('/home', verifyToken, async (req, res) => {
     try {
-        const user = await userFormat.findById(req.userId);
-        if (!user) return res.status(404).json({ message: "User not found" });
+        const user = await userFormat
+            .findById(req.userId)
+            .select('-password');
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
         res.json(user);
+
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Server error", error: err.message });
+        res.status(500).json({
+            message: "Server error",
+            error: err.message
+        });
     }
-})
+});
+
+//   app.get('/home', verifyToken, async (req, res) => {
+//     try {
+//         const user = await userFormat.findById(req.userId);
+//         if (!user) return res.status(404).json({ message: "User not found" });
+//         res.json(user);
+        
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ message: "Server error", error: err.message });
+//     }
+// })
 
 
 app.post('/posts',verifyToken , async(req,res)=>{
