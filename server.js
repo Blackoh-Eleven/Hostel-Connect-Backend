@@ -79,7 +79,12 @@ app.post('/signup', async(req,res)=>{
     await student.save();
     console.log(student)
 
-    res.json({message:'Signup Successful.Kindly proceed to Login',data:student})
+    res.json({message:'Signup Successful.Kindly proceed to Login',data: {
+        fullName: student.fullName,
+        matricNumber: student.matricNumber,
+        email: student.email,
+        phoneNumber: student.phoneNumber
+    }})
 
 })
 
