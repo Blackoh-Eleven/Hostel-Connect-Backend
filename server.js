@@ -204,6 +204,7 @@ app.post('/upload', upload.array('images'), async (req, res) => {
 });
 
 
-app.listen(process.env.PORT,()=>{
-    console.log(`Dear blackoh ..server listening via Port ${process.env.PORT}`)
+const PORT = process.env.PORT || 3000;
+app.listen(PORT,()=>{
+    console.log(`Dear blackoh ..server listening via Port ${PORT}`)
 })
