@@ -71,10 +71,11 @@ app.get('/' ,(req,res)=>{
 
 
 app.post('/signup', async(req,res)=>{
-    console.log(req.body);
+    
     const{fullName,matricNumber,email,phoneNumber,password} = req.body;
     const hashedPassword = await bcrypt.hash(password,10);
     const student = new userFormat({fullName,matricNumber,email,phoneNumber,password:hashedPassword});
+    
     await student.save();
     console.log(student)
 
