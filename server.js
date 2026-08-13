@@ -77,7 +77,7 @@ app.post('/signup', async(req,res)=>{
     const student = new userFormat({fullName,matricNumber,email,phoneNumber,password:hashedPassword});
     
     await student.save();
-    console.log(student)
+    // console.log(student)
 
     res.json({message:'Signup Successful.Kindly proceed to Login',data: {
         fullName: student.fullName,
