@@ -15,7 +15,7 @@ require('dotenv').config();
 app.use(express.json());
 app.use(cors());
 cloudinary.config({
-    cloud_name:  process.env.cloud_name,
+    cloud_name:  process.env.Cloudinary_cloud_name,
     api_key: process.env.Cloudinary_api_key,
     api_secret: process.env.Cloudinary_api_secret
 });
