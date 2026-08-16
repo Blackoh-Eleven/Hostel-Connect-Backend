@@ -168,7 +168,8 @@ app.post('/posts',verifyToken , async(req,res)=>{
 app.post('/posts/:id/save', verifyToken, async (req, res) => {
     try {
         const postId = req.params.id;
-        const user = await userFormat.findById(req.userId);
+        const user = await userFormat.findById(req.userId)
+        
 
         const alreadySaved = user.savedPosts.some(id => id.toString() === postId);
 
@@ -190,7 +191,20 @@ app.post('/posts/:id/save', verifyToken, async (req, res) => {
 });
 
 
-app.get('posts')
+
+app.get('/saved', verifyToken, async (req, res) => {
+    try {
+
+        const user = await userFormat.findById(req.userId)
+            .populate('savedPosts');
+
+        res.json(user.savedPosts);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
 
 
 
