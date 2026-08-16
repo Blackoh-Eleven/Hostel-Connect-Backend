@@ -73,8 +73,29 @@ app.get('/' ,(req,res)=>{
 app.post('/signup', async(req,res)=>{
     
     const{fullName,matricNumber,email,phoneNumber,password} = req.body;
+                if (!fullName || !matricNumber || !email || !phoneNumber || !password) {
+            return res.status(400).json({
+                message: 'Please fill all fields'
+            });
+        }
+
+        const existingUser = await userFormat.findOne({
+            $or: [
+                { email },
+                { matricNumber }
+            ]
+        });
+
+        if (existingUser) {
+            return res.status(409).json({
+                message: 'Email or matric number already registered'
+            });
+        }
+
+
     const hashedPassword = await bcrypt.hash(password,10);
     const student = new userFormat({fullName,matricNumber,email,phoneNumber,password:hashedPassword});
+
     
     await student.save();
     // console.log(student)
@@ -92,8 +113,14 @@ app.post('/signup', async(req,res)=>{
 app.post('/signin', async(req,res)=>{
     
     const{matricNumber,email,password} = req.body;
-    const user = await userFormat.findOne({email});
+      if(!matricNumber) return res.json({message:'Matric Number not found'})
+    const user = await userFormat.findOne({
+    email,
+    matricNumber
+});
+
     if(!user) return res.json({message:'User not Found!'});
+  
 
     const isMatch = await bcrypt.compare(password,user.password);
     if(!isMatch) return res.json({message:'Wrong password!'});
