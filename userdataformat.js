@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     phoneNumber: String,
     email: String,
     password:String,
-    savedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }]
+    savedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
 })
 
 const userFormat = mongoose.model('User', userSchema)

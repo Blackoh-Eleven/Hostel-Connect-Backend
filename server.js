@@ -247,6 +247,23 @@ app.post('/upload', upload.array('images'), async (req, res) => {
 });
 
 
+
+
+app.get('/mylistings', verifyToken, async (req, res) => {
+    try {
+        const posts = await Post.find({
+            postedBy: req.userId
+        });
+
+        res.json(posts);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT,()=>{
     console.log(`Dear blackoh ..server listening via Port ${PORT}`)
