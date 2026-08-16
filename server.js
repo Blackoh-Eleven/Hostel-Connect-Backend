@@ -251,7 +251,7 @@ app.post('/upload', upload.array('images'), async (req, res) => {
 
 app.get('/mylistings', verifyToken, async (req, res) => {
     try {
-        const posts = await Post.find({
+        const posts = await postFormat.find({
             postedBy: req.userId
         });
 
