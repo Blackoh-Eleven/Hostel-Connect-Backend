@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('Connected to MongoDB successful! '))
-  .catch((err) => console.log('Connection failed', err));
+  .catch((err) => console.log('MongoDB no connect oo Connection failed', err));
 
 
   const upload = multer({
