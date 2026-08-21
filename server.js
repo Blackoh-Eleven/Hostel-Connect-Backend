@@ -8,6 +8,7 @@ const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const userFormat = require('./userdataformat')
 const postFormat = require('./postsdataformat')
+const notificationFormat = require('./NotificationFormat')
 // const userFormat = require('./models/User');
 require('dotenv').config();
 
@@ -196,6 +197,11 @@ app.post('/posts/:id/save', verifyToken, async (req, res) => {
     try {
         const postId = req.params.id;
         const user = await userFormat.findById(req.userId)
+        const post = await Post.findById(postId);
+
+        if(!post){
+            return res.status(404).json({mesage:'postnot found'})
+        }
         
 
         const alreadySaved = user.savedPosts.some(id => id.toString() === postId);
@@ -204,14 +210,36 @@ app.post('/posts/:id/save', verifyToken, async (req, res) => {
             user.savedPosts = user.savedPosts.filter(id => id.toString() !== postId);
         } else {
             user.savedPosts.push(postId);
+            const notification = new Notification({
+                    user: post.postedBy,
+                    message: "Someone saved your post"
+                });
+                await notification.save()
         }
 
         await user.save();
 
+        
+
         res.status(200).json({
+            
             message: alreadySaved ? 'Post unsaved' : 'Post saved',
             savedPosts: user.savedPosts
         });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+app.get('/notifications', verifyToken, async (req, res) => {
+    try {
+
+        const notifications = await Notification.find({
+            user: req.userId
+        });
+
+        res.status(200).json(notifications);
+
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
