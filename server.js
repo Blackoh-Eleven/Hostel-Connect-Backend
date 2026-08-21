@@ -8,7 +8,7 @@ const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const userFormat = require('./userdataformat')
 const postFormat = require('./postsdataformat')
-const notificationFormat = require('./NotificationFormat')
+const notificationFormat = require('./notificationformat')
 // const userFormat = require('./models/User');
 require('dotenv').config();
 
