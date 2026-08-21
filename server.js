@@ -197,10 +197,10 @@ app.post('/posts/:id/save', verifyToken, async (req, res) => {
     try {
         const postId = req.params.id;
         const user = await userFormat.findById(req.userId)
-        const post = await Post.findById(postId);
+        const post = await postFormat.findById(postId);
 
         if(!post){
-            return res.status(404).json({mesage:'postnot found'})
+            return res.status(404).json({mesage:'post not found'})
         }
         
 
