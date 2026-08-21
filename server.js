@@ -210,7 +210,7 @@ app.post('/posts/:id/save', verifyToken, async (req, res) => {
             user.savedPosts = user.savedPosts.filter(id => id.toString() !== postId);
         } else {
             user.savedPosts.push(postId);
-            const notification = new Notification({
+            const notification = new notificationFormat({
                     user: post.postedBy,
                     message: "Someone saved your post"
                 });
@@ -234,7 +234,7 @@ app.post('/posts/:id/save', verifyToken, async (req, res) => {
 app.get('/notifications', verifyToken, async (req, res) => {
     try {
 
-        const notifications = await Notification.find({
+        const notifications = await notificationFormat.find({
             user: req.userId
         });
 
