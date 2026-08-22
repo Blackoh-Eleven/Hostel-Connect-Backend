@@ -185,7 +185,21 @@ app.post('/posts',verifyToken , async(req,res)=>{
   app.get('/posts', async (req, res) => {
     try {
         const posts = await postFormat.find();
-        res.status(200).json(posts)
+
+                const postsWithSaved = posts.map(post => {
+
+            const saved = user.savedPosts.some(
+                id => id.toString() === post._id.toString()
+            );
+
+            return {
+                ...post.toObject(),
+                saved: saved
+            };
+        });
+
+       
+        res.status(200).json({posts,postsWithSaved})
 
     } catch (err) {
         console.error(err);
