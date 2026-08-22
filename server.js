@@ -116,9 +116,12 @@ app.post('/signin', async(req,res)=>{
     const{matricNumber,email,password} = req.body;
       if(!matricNumber) return res.json({message:'Matric Number not found'})
     const user = await userFormat.findOne({
-    email,
+    email: email.toLowerCase(),
     matricNumber
 });
+
+
+
 
     if(!user) return res.json({message:'User not Found!'});
   
