@@ -199,7 +199,7 @@ app.post('/posts',verifyToken , async(req,res)=>{
         });
 
        
-        res.status(200).json({posts,postsWithSaved})
+        res.status(200).json(postsWithSaved)
 
     } catch (err) {
         console.error(err);
