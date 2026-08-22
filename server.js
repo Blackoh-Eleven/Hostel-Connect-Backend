@@ -199,6 +199,7 @@ app.post('/posts/:id/save', verifyToken, async (req, res) => {
         const user = await userFormat.findById(req.userId)
         const post = await postFormat.findById(postId);
 
+
         if(!post){
             return res.status(404).json({mesage:'post not found'})
         }
@@ -210,6 +211,10 @@ app.post('/posts/:id/save', verifyToken, async (req, res) => {
             user.savedPosts = user.savedPosts.filter(id => id.toString() !== postId);
         } else {
             user.savedPosts.push(postId);
+
+
+            
+
             const notification = new notificationFormat({
                     user: post.postedBy,
                     message: "Someone saved your post"
@@ -219,12 +224,19 @@ app.post('/posts/:id/save', verifyToken, async (req, res) => {
 
         await user.save();
 
+        //background refresh
+        const saved = user.savedPosts.some(
+            id => id.toString() === postId
+        );
+
+
         
 
         res.status(200).json({
             
             message: alreadySaved ? 'Post unsaved' : 'Post saved',
-            savedPosts: user.savedPosts
+            savedPosts: user.savedPosts,
+            saved
         });
     } catch (err) {
         res.status(500).json({ message: err.message });
