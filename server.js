@@ -276,6 +276,27 @@ app.get('/notifications', verifyToken, async (req, res) => {
 });
 
 
+app.patch('/notifications/:id/read', verifyToken, async (req, res) => {
+
+    const notification = await Notification.findById(req.params.id);
+
+    if (!notification) {
+        return res.status(404).json({
+            message: 'Notification not found'
+        });
+    }
+
+    notification.read = true;
+
+    await notification.save();
+
+    res.json({
+        message: 'Notification marked as read'
+    });
+
+});
+
+
 
 app.get('/saved', verifyToken, async (req, res) => {
     try {
