@@ -278,7 +278,7 @@ app.get('/notifications', verifyToken, async (req, res) => {
 
 app.patch('/notifications/:id/read', verifyToken, async (req, res) => {
 
-    const notification = await Notification.findById(req.params.id);
+    const notification = await notificationFormat.findById(req.params.id);
 
     if (!notification) {
         return res.status(404).json({
