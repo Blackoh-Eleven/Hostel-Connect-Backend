@@ -187,7 +187,8 @@ app.post('/posts',verifyToken , async(req,res)=>{
 
   app.get('/posts', verifyToken, async (req, res) => {
     try {
-        const posts = await postFormat.find();
+        // const posts = await postFormat.find();
+        const posts = await postFormat.find().populate('postedBy', '_id fullName phoneNumber');
          const user = await userFormat.findById(req.userId);
 
                 const postsWithSaved = posts.map(post => {
