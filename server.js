@@ -262,6 +262,22 @@ app.post('/posts/:id/save', verifyToken, async (req, res) => {
     }
 });
 
+
+app.get("/mylistings", verifyToken, async (req, res) => {
+    try {
+        const posts = await postFormat.find({
+            user: req.user.id
+        });
+
+        res.json(posts);
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed to fetch your posts"
+        });
+    }
+});
+
 app.get('/notifications', verifyToken, async (req, res) => {
     try {
 
