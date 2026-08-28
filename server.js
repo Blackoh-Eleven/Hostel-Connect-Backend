@@ -266,7 +266,7 @@ app.post('/posts/:id/save', verifyToken, async (req, res) => {
 app.get("/mylistings", verifyToken, async (req, res) => {
     try {
         const posts = await postFormat.find({
-            user: req.user.id
+            user: req.userId
         });
 
         res.json(posts);
