@@ -263,15 +263,37 @@ app.post('/posts/:id/save', verifyToken, async (req, res) => {
 });
 
 
+// app.get("/mylistings", verifyToken, async (req, res) => {
+//     try {
+//         const posts = await postFormat.find({
+//             user: req.userId
+//         });
+
+//         res.json(posts);
+
+//     } catch (error) {
+//         res.status(500).json({
+//             message: "Failed to fetch your posts"
+//         });
+//     }
+// });
+
+
 app.get("/mylistings", verifyToken, async (req, res) => {
     try {
+        console.log("USER ID:", req.userId);
+
         const posts = await postFormat.find({
             user: req.userId
         });
 
+        console.log("POSTS:", posts);
+
         res.json(posts);
 
     } catch (error) {
+        console.error(error);
+
         res.status(500).json({
             message: "Failed to fetch your posts"
         });
