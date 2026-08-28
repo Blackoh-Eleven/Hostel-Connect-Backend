@@ -284,7 +284,8 @@ app.get("/mylistings", verifyToken, async (req, res) => {
         console.log("USER ID:", req.userId);
 
         const posts = await postFormat.find({
-            user: req.userId
+            postedBy: req.userId
+
         });
 
         console.log("POSTS:", posts);
