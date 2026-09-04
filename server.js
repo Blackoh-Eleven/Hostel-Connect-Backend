@@ -115,10 +115,10 @@ app.post('/signup', async(req,res)=>{
 
 
 app.post('/forgotPassword',async(req,res)=>{
-    const {identifier,passwordnew} =req.body
-    console.log("identifier:", identifier);
-console.log("type:", typeof identifier);
-    const user = await userFormat.findOne({email:identifier})
+    const {email,passwordnew} =req.body
+    console.log("identifier:", email);
+console.log("type:", typeof email);
+    const user = await userFormat.findOne({email})
 
     console.log(`user:  ${user}`)
     if(!user) return res.status(404).json({message:'user not found'})
