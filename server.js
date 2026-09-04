@@ -116,7 +116,11 @@ app.post('/signup', async(req,res)=>{
 
 app.post('/forgotPassword',async(req,res)=>{
     const {identifier,passwordnew} =req.body
+    console.log("identifier:", identifier);
+console.log("type:", typeof identifier);
     const user = await userFormat.findOne({email:identifier})
+
+    console.log(`user:  ${user}`)
     if(!user) return res.status(404).json({message:'user not found'})
     const newpassword = passwordnew
     const hashedPassword = await bcrypt.hash(newpassword,10);
