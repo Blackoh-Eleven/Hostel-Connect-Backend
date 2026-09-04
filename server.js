@@ -24,6 +24,7 @@ cloudinary.config({
 
 
 const path = require('path');
+const { constants } = require('buffer');
 
 app.use(express.static(path.join(__dirname, '../frontend')));
 
@@ -74,6 +75,7 @@ app.get('/' ,(req,res)=>{
 app.post('/signup', async(req,res)=>{
     
     const{fullName,matricNumber,email,phoneNumber,password} = req.body;
+    
                 if (!fullName || !matricNumber || !email || !phoneNumber || !password) {
             return res.status(400).json({
                 message: 'Please fill all fields'
@@ -110,6 +112,19 @@ app.post('/signup', async(req,res)=>{
 
 })
 
+
+
+app.post('/forgotPassword',async(req,res)=>{
+    const {identifier,passwordnew} =req.body
+    const user = await userFormat.findOne({email:identifier})
+    if(!user) return res.status(404).json({message:'user not found'})
+    const newpassword = passwordnew
+    const hashedPassword = await bcrypt.hash(newpassword,10);
+    user.password = hashedPassword
+    await user.save()
+
+    res.status(200).json({message:`password changed succesfully`})
+})
 
 app.post('/signin', async(req,res)=>{
     
