@@ -204,6 +204,18 @@ app.post('/posts',verifyToken , async(req,res)=>{
 })
 
 
+app.delete('/posts/:id',verifyToken,async(req,res)=>{
+    try{
+        const postid = req.params.id;
+
+        if(!postid) return res.status(404).json({message:'post not found'})
+
+            await postFormat.findByIdAndDelete(req.param.id)
+            res.status(200).json({message:'post deleted succesfully'})
+    }catch(err){console.error(err)}
+})
+
+
   app.get('/posts', verifyToken, async (req, res) => {
     try {
         // const posts = await postFormat.find();
