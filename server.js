@@ -168,7 +168,7 @@ try{
         }
 
 
-    const petitioner = new supportDataFormat({petitionerName,department,level,email})
+    const petitioner = new petitionerFormat({petitionerName,department,level,email})
     await petitioner.save()
 
     res.status(201).json({
