@@ -9,6 +9,7 @@ const multer = require('multer');
 const userFormat = require('./userdataformat')
 const postFormat = require('./postsdataformat')
 const notificationFormat = require('./notificationformat')
+const petitionerFormat = require('/supportDataFormat')
 // const userFormat = require('./models/User');
 require('dotenv').config();
 
@@ -153,6 +154,37 @@ app.post('/signin', async(req,res)=>{
     res.json({message:'login Successful',token})
   
 })
+
+
+// petiton or support
+
+app.post('/support',async (req,res)=>{
+    const{petitionerName,department,level,email} = req.body;
+try{
+    if (!petitionerName || !department || !level ) {
+            return res.status(400).json({
+                message: 'Please fill all fields'
+            });
+        }
+
+
+    const petitioner = new supportDataFormat({petitionerName,department,level,email})
+    await petitioner.save()
+
+    res.status(201).json({
+        message:'Support Succesfully Signed'
+    })
+} catch(err){
+    res.status(500).json({
+    message: 'Server error'
+});
+}
+
+})
+
+// app.get('/support' ,async(req,res)=>{
+    
+// })
 
 
 app.get('/home', verifyToken, async (req, res) => {
